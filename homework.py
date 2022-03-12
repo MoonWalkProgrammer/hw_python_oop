@@ -1,29 +1,23 @@
-from decimal import Decimal
+from dataclasses import dataclass
+from typing import Dict
 
 
+@dataclass
 class InfoMessage:
     """Information message about training."""
-    def __init__(self,
-                 training_type: str,
-                 duration: float,
-                 distance: float,
-                 speed: float,
-                 calories: float
-                 ) -> None:
-        self.training_type = training_type
-        self.duration = duration
-        self.distance = distance
-        self.speed = speed
-        self.calories = calories
-        pass
+    training_type: str
+    duration: float
+    distance: float
+    speed: float
+    calories: float
 
     def get_message(self) -> str:
         '''Return information about a completed excercise.'''
         return (f'Тип тренировки: {self.training_type}; '
-                f'Длительность: {round(Decimal(self.duration), 3)} ч.; '
-                f'Дистанция: {round(Decimal(self.distance), 3)} км; '
-                f'Ср. скорость: {round(Decimal(self.speed), 3)} км/ч; '
-                f'Потрачено ккал: {round(Decimal(self.calories), 3)}.')
+                f'Длительность: {self.duration:.3f} ч.; '
+                f'Дистанция: {self.distance:.3f} км; '
+                f'Ср. скорость: {self.speed:.3f} км/ч; '
+                f'Потрачено ккал: {self.calories:.3f}.')
     pass
 
 
@@ -135,7 +129,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Read data from received sensors."""
-    training_dict = {
+    training_dict: Dict[str, Training] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
