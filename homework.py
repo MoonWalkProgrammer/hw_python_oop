@@ -10,7 +10,7 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    MESSAGE = ('Тип тренировки: {training_type}; '
+    MESSAGE: str = ('Тип тренировки: {training_type}; '
                'Длительность: {duration:.3f} ч.; '
                'Дистанция: {distance:.3f} км; '
                'Ср. скорость: {speed:.3f} км/ч; '
@@ -25,7 +25,7 @@ class Training:
     """Basic Training class."""
     M_IN_KM: int = 1000  # constant for converting from meters to kilometers
     LEN_STEP: float = 0.65  # step length in meters
-    HOURS_IN_MINUTES = 60  # constant for conventing from hours to minutes
+    HOURS_IN_MINUTES: int = 60  # constant for conventing from hours to minutes
 
     def __init__(self,
                  action: int,
@@ -121,7 +121,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Read data from received sensors."""
-    if workout_type not in ('SWM', 'RUN', 'WLK'):
+    if workout_type not in ('SWM', 'RUN', 'WLK'):  # arguement validation
         raise ValueError('Wrong workout_type')
     else:
         training_dict: Dict[str, Training] = {
