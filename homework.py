@@ -121,7 +121,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Read data from received sensors."""
-    if workout_type not in ('SWM', 'RUN', 'WLK'):  # arguement validation
+    if workout_type not in ('SWM', 'RUN', 'WLK'):  # argument validation
         raise ValueError('Wrong workout_type')
     else:
         training_dict: Dict[str, Training] = {
