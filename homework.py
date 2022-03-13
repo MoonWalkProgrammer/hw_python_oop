@@ -23,9 +23,9 @@ class InfoMessage:
 
 class Training:
     """Basic Training class."""
-    M_IN_KM: int = 1000  # constant for converting from meters to kilometers
-    LEN_STEP: float = 0.65  # step length in meters
-    HOURS_IN_MINUTES: int = 60  # constant for conventing from hours to minutes
+    M_IN_KM: int = 1000
+    LEN_STEP: float = 0.65
+    MINUTES_IN_HOURS: int = 60
 
     def __init__(self,
                  action: int,
@@ -66,7 +66,7 @@ class Running(Training):
         '''Return the number of calories burned.'''
         return ((self.COEFF_CALORIE_1 * self.get_mean_speed()
                 - self.COEFF_CALORIE_2) * self.weight
-                / self.M_IN_KM * self.duration * self.HOURS_IN_MINUTES)
+                / self.M_IN_KM * self.duration * self.MINUTES_IN_HOURS)
 
 
 class SportsWalking(Training):
@@ -88,12 +88,12 @@ class SportsWalking(Training):
         return ((self.COEFF_CALORIE_1 * self.weight
                 + (self.get_mean_speed()**2 // self.height)
                 * self.COEFF_CALORIE_2 * self.weight)
-                * self.duration * self.HOURS_IN_MINUTES)
+                * self.duration * self.MINUTES_IN_HOURS)
 
 
 class Swimming(Training):
     """Training: swimming."""
-    LEN_STEP: float = 1.38  # stroke length in meters
+    LEN_STEP: float = 1.38
     COEFF_CALORIE_1: float = 1.1
     COEFF_CALORIE_2: float = 2
 
@@ -121,16 +121,16 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Read data from received sensors."""
-    if workout_type not in ('SWM', 'RUN', 'WLK'):  # argument validation
-        raise ValueError('Wrong workout_type')
-    else:
-        training_dict: Dict[str, Training] = {
-            'SWM': Swimming,
-            'RUN': Running,
-            'WLK': SportsWalking
-        }
-        current_sport: Training = training_dict[workout_type]
-        return current_sport(*data)
+    training_types: Dict[str, Training] = {
+        'SWM': Swimming,
+        'RUN': Running,
+        'WLK': SportsWalking
+    }
+    if workout_type not in training_types:
+        raise ValueError(f'Wrong workout type {workout_type}.'
+                         f'Allowed types: {", ".join(training_types.keys())}')
+    current_sport: Training = training_types[workout_type]
+    return current_sport(*data)
 
 
 def main(training: Training) -> None:
