@@ -46,7 +46,7 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Return the number of calories burned."""
-        pass
+        raise NotImplementedError
 
     def show_training_info(self) -> InfoMessage:
         """Return training information message."""
